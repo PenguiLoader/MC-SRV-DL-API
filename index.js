@@ -66,9 +66,9 @@ app.get("/download", (req, res) => {
     });
   }
 
-  //for vanilla:
-  if(software === "vanilla") {
-    fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+  //for spigot:
+  if(software === "spigot") {
+    fetch("")
     .then(results => results.json())
     .then(data => {
       
