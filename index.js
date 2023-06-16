@@ -47,8 +47,7 @@ app.get("/download", (req, res) => {
         build = data.builds.at(-1).build;
         filename = data.builds.at(-1).downloads.application.name;
 
-        
-    return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
+        return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
       } else {
         //check if the build is valid.
         fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}`)
