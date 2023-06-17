@@ -1,7 +1,12 @@
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
+import * as fs from "fs";
 const app = express();
+
+app.get("/", (req, res) => {
+  
+});
 
 app.get("/download", (req, res) => {
   let software = req.query.software;

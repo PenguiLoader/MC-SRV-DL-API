@@ -15,11 +15,13 @@ To download one, use the /download endpoint with the software, version and build
 
 To grab the latest paper .jar download link:
 
-`GET https://mc-srv-dl-api.pingwinco.xyz/download?software=paper&version=1.20&build=latest`
+`
+GET https://mc-srv-dl-api.pingwinco.xyz/download?software=paper&version=1.20&build=latest
+`
 
 Example response:
 
-```
+```json
 {
   "error": false,
   "download": "https://api.papermc.io/v2/projects/paper/versions/1.20/builds/17/downloads/paper-1.20-17.jar"
