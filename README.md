@@ -8,7 +8,7 @@ The Minecraft Server Software API let's you download server softwares with ease.
 
 - Paper
 - Purpur
-- Spigot
+- Spigot (BungeeCord .jar)
 - Vanilla
 
 To download one, use the /download endpoint with the software, version and build parameter. Here is an example:

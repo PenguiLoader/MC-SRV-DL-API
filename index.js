@@ -5,7 +5,7 @@ import * as fs from "fs";
 const app = express();
 
 app.get("/", (req, res) => {
-  
+  res.redirect(301, "https://github.com/polish-penguin-dev/MC-SRV-DL-API" + req.path);
 });
 
 app.get("/download", (req, res) => {
@@ -13,9 +13,9 @@ app.get("/download", (req, res) => {
   let version = req.query.version;
   let build = req.query.build;
   let filename;
-
+  
   //check that all the required parameters are included.
-  if(!software || !version || !build) {
+  if(!software || !version || !build && software !== "vanilla") {
     return res.status(400).json({ error: true, message: "You need the software, version, and build parameter in the URL." });
   }
 
@@ -71,12 +71,28 @@ app.get("/download", (req, res) => {
     });
   }
 
-  //for spigot:
-  if(software === "spigot") {
-    fetch("")
+  //for vanilla:
+  if(software === "vanilla") {
+    fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json")
     .then(results => results.json())
     .then(data => {
+      const builds = data.versions;
+      let foundVersion = false;
       
+      builds.forEach((vanillaBuild, index) => {
+        if(vanillaBuild.id === version) {
+          foundVersion = true;
+          
+          fetch(vanillaBuild.url)
+          .then(results => results.json())
+          .then(data => {
+            return res.status(200).json({ error: false, download: data.downloads.server.url });
+          });
+        }
+
+        //loop finshed:
+        if(index === builds.length - 1 && foundVersion === false) return res.status(400).json({ error: true, message: "version not found" });
+      });
     });
   }
 });
