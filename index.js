@@ -1,5 +1,6 @@
 import express from "express";
 import fetch from "node-fetch";
+import cors from "cors";
 const app = express();
 
 app.get("/download", (req, res) => {
@@ -74,5 +75,8 @@ app.get("/download", (req, res) => {
     });
   }
 });
+
+app.use(cors());
+app.options("*", cors());
 
 app.listen(3000);
