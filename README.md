@@ -7,7 +7,7 @@
 The Minecraft Server Software API let's you download server softwares with ease. As of right now, these are:
 
 - 📜Paper
-- 🟪Purpur
+- 🎶Purpur
 - 🎉Vanilla
 
 To download one, use the /download endpoint with the software, version and build parameter. Here is an example:
