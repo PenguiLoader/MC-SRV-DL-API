@@ -6,10 +6,9 @@
 
 The Minecraft Server Software API let's you download server softwares with ease. As of right now, these are:
 
-- Paper
-- Purpur
-- Spigot (BungeeCord .jar)
-- Vanilla
+- 📜Paper
+- 🟪Purpur
+- 🎉Vanilla
 
 To download one, use the /download endpoint with the software, version and build parameter. Here is an example:
 
@@ -28,4 +27,17 @@ Example response:
 }
 ```
 
+To grab the 1.20.1 vanilla server.jar: (no build parameter required)
 
+`
+GET https://mc-srv-dl-api.pingwinco.xyz/download?software=vanilla&version=1.20.1
+`
+
+Example response:
+
+```json
+{
+  "error": false,
+  "download": "https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar"
+}
+```
