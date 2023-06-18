@@ -26,11 +26,11 @@ app.get("/download", (req, res) => {
     return res.status(400).json({ error: true, message: "You need the software, version, and build parameter in the URL." });
   }
 
-  const softwares = ["vanilla", "paper", "spigot", "purpur"];
+  const softwares = ["vanilla", "paper", "purpur"];
   
     //check if the software parameter is a valid, real software.
     if(!softwares.includes(software)) {
-      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, spigot or purpur." });
+      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, or purpur." });
     }
 
   
