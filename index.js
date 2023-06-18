@@ -36,14 +36,20 @@ app.get("/download", (req, res) => {
   
   //for purpur:
   if(software === "purpur") {
-    fetch(`https://api.purpurmc.org/v2/purpur/${version}/${build}`)
-    .then(results => results.json())
-    .then(data => {
-      if(data.error) {
-        return res.status(400).json({ error: true, message: data.error })
-      }
+    getVersionManifest().then(versionmanifest => {
+        if(version === "latest") {
+          version = versionmanifest.latest.release;
+        }
+      
+        fetch(`https://api.purpurmc.org/v2/purpur/${version}/${build}`)
+        .then(results => results.json())
+        .then(data => {
+          if(data.error) {
+            return res.status(400).json({ error: true, message: data.error })
+          }
 
-      return res.status(200).json({ error: false, download: `https://api.purpurmc.org/v2/purpur/${version}/${build}/download` });
+          return res.status(200).json({ error: false, download: `https://api.purpurmc.org/v2/purpur/${version}/${build}/download` });
+        });
     });
   }
 

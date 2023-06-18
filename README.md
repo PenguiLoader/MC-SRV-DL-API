@@ -42,6 +42,8 @@ Example response:
 }
 ```
 
+## ⚠ WARNING! When using "latest" as the version parameter, it may throw an error as the server software providers have not yet updated to the latest version. ⚠
+
 Please consider donating: https://www.paypal.com/donate/?hosted_button_id=Z43BFTB2UDSHQ
 
 **This code goes by the Code Credit License, included in the LICENSE.md file. Made by Aleksander Wegrzyn (or polish-penguin-dev)**
