@@ -27,10 +27,10 @@ Example response:
 }
 ```
 
-To grab the 1.20.1 vanilla server.jar: (no build parameter required)
+To grab the latest vanilla server.jar: (no build parameter required)
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download?software=vanilla&version=1.20.1
+GET https://mc-srv-dl-api.pingwinco.xyz/download?software=vanilla&version=latest
 `
 
 Example response:

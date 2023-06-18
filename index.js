@@ -7,6 +7,14 @@ app.get("/", (req, res) => {
   res.redirect(301, "https://github.com/polish-penguin-dev/MC-SRV-DL-API" + req.path);
 });
 
+//quick function to get the version manifest (get the latest version)
+async function getVersionManifest() {
+  const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+  const versionmanifest = response.json();
+  
+  return await versionmanifest;
+}
+
 app.get("/download", (req, res) => {
   let software = req.query.software;
   let version = req.query.version;
@@ -41,45 +49,52 @@ app.get("/download", (req, res) => {
 
   //for paper:
   if(software === "paper") {
-    fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds`)
-    .then(results => results.json())
-    .then(data => {
-      if(data.error) {
-        return res.status(400).json({ error: true, message: data.error });
-      } 
-      
-      if(build === "latest") {
-        build = data.builds.at(-1).build;
-        filename = data.builds.at(-1).downloads.application.name;
+      getVersionManifest().then(versionmanifest => {
+        if(version === "latest") {
+          version = versionmanifest.latest.release;
+        }
 
-        return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
-      } else {
-        //check if the build is valid.
-        fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}`)
+        fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds`)
         .then(results => results.json())
         .then(data => {
           if(data.error) {
             return res.status(400).json({ error: true, message: data.error });
+          } 
+      
+          if(build === "latest") {
+            build = data.builds.at(-1).build;
+            filename = data.builds.at(-1).downloads.application.name;
+
+            return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
+          } else {
+            //check if the build is valid.
+            fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}`)
+            .then(results => results.json())
+            .then(data => {
+              if(data.error) {
+                return res.status(400).json({ error: true, message: data.error });
+              }
+
+              filename = `paper-${version}-${build}.jar`;
+
+              return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
+            });
           }
-
-          filename = `paper-${version}-${build}.jar`;
-
-          return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
         });
-      }
-    });
+      });
   }
 
   //for vanilla:
   if(software === "vanilla") {
 fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json")
     .then(results => results.json())
-    .then(data => {
-      if(version === "latest") {
-        version === data.latest.release;
-      }
+    .then(data => { 
       const builds = data.versions;
       let foundVersion = false;
+
+      if(version === "latest") {
+        version = data.latest.release;
+      }
       
       builds.forEach((vanillaBuild, index) => {
         if(vanillaBuild.id === version) {
