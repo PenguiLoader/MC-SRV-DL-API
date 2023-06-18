@@ -7,7 +7,7 @@ app.get("/", (req, res) => {
   res.redirect(301, "https://github.com/polish-penguin-dev/MC-SRV-DL-API" + req.path);
 });
 
-//quick function to get the version manifest (get the latest version)
+//quick function to get the version manifest/latest version of minecraft
 async function getVersionManifest() {
   const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
   const versionmanifest = response.json();
