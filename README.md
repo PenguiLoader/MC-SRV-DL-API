@@ -42,4 +42,7 @@ Example response:
 }
 ```
 
+Please consider donating: https://www.paypal.com/donate/?hosted_button_id=Z43BFTB2UDSHQ
+
 **This code goes by the Code Credit License, included in the LICENSE.md file. Made by Aleksander Wegrzyn (or polish-penguin-dev)**
+
