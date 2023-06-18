@@ -23,7 +23,7 @@ Example response:
 ```json
 {
   "error": false,
-  "download": "ttps://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/41/downloads/paper-1.20.1-41.jar"
+  "download": "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/41/downloads/paper-1.20.1-41.jar"
 }
 ```
 
