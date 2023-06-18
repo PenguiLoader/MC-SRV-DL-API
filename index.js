@@ -72,9 +72,12 @@ app.get("/download", (req, res) => {
 
   //for vanilla:
   if(software === "vanilla") {
-    fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json")
+fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json")
     .then(results => results.json())
     .then(data => {
+      if(version === "latest") {
+        version === data.latest.release;
+      }
       const builds = data.versions;
       let foundVersion = false;
       
