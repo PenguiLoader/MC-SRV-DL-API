@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.redirect(301, "https://github.com/polish-penguin-dev/MC-SRV-DL-API" + req.path);
 });
 
-//quick function to get the version manifest so the latest version can be grabbed with ease
+//quick function to get the version manifest so the latest version can be grabbed with ease. TODO: Add option to get the latest *availible* version for the software if it has not yet updated to the latest.
 async function getVersionManifest() {
   const response = await fetch("https://launchermeta.mojang.com/mc/game/version_manifest.json");
   const versionmanifest = response.json();
