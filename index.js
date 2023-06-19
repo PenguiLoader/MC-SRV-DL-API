@@ -1,3 +1,7 @@
+/*
+  Made by Aleksander Wegrzyn under the Code Credit License.
+*/
+
 import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";

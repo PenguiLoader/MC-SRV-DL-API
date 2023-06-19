@@ -10,6 +10,10 @@ The Minecraft Server Software API let's you download server softwares with ease.
 - 🎶Purpur
 - 🎉Vanilla
 
+Some of the other server softwares that are planned to be added:
+
+- 🌟Glowstone
+
 To download one, use the /download endpoint with the software, version and build parameter. Here is an example:
 
 To grab the latest paper .jar download link:
