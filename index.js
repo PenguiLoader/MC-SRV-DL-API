@@ -52,7 +52,7 @@ app.get("/download", (req, res) => {
             return res.status(400).json({ error: true, message: data.error })
           }
 
-          return res.status(200).json({ error: false, download: `https://api.purpurmc.org/v2/purpur/${version}/${build}/download` });
+          return res.status(200).json({ error: false, download: `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`, version: version });
         });
     });
   }
@@ -75,7 +75,7 @@ app.get("/download", (req, res) => {
             build = data.builds.at(-1).build;
             filename = data.builds.at(-1).downloads.application.name;
 
-            return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
+            return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}`, version: version });
           } else {
             //check if the build is valid.
             fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}`)
@@ -113,7 +113,7 @@ app.get("/download", (req, res) => {
           fetch(vanillaBuild.url)
           .then(results => results.json())
           .then(data => {
-            return res.status(200).json({ error: false, download: data.downloads.server.url });
+            return res.status(200).json({ error: false, download: data.downloads.server.url, version: version });
           });
         }
 
