@@ -19,11 +19,11 @@ async function getVersionManifest() {
   return await versionmanifest;
 }
 
-app.get("/download", (req, res) => {
-  let software = req.query.software;
-  let version = req.query.version;
-  let build = req.query.build;
-  let filename;
+app.get("/download/:software?/:version?/:build?", (req, res) => {
+  let software = req.query.software || req.params.software;
+  let version = req.query.version || req.params.version;
+  let build = req.query.build || req.params.build;
+  let json = req.params.json;
   
   //check that all the required parameters are included.
   if(!software || !version || !build && software !== "vanilla") {
@@ -51,14 +51,20 @@ app.get("/download", (req, res) => {
           if(data.error) {
             return res.status(400).json({ error: true, message: data.error })
           }
-
+          
+          if(json) {
           return res.status(200).json({ error: false, download: `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`, version: version });
+          } else {
+            res.redirect(302, `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`)
+          }
         });
     });
   }
 
   //for paper:
   if(software === "paper") {
+    let filename;
+    
       getVersionManifest().then(versionmanifest => {
         if(version === "latest") {
           version = versionmanifest.latest.release;
@@ -87,7 +93,11 @@ app.get("/download", (req, res) => {
 
               filename = `paper-${version}-${build}.jar`;
 
-              return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}` });
+              if(json) {
+              return res.status(200).json({ error: false, download: `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}`, version: version });
+              } else {
+               res.redirect(302, `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${build}/downloads/${filename}`)
+              }
             });
           }
         });
@@ -113,7 +123,11 @@ app.get("/download", (req, res) => {
           fetch(vanillaBuild.url)
           .then(results => results.json())
           .then(data => {
+            if(json) {
             return res.status(200).json({ error: false, download: data.downloads.server.url, version: version });
+            } else {
+              res.redirect(302, data.downloads.server.url);
+            }
           });
         }
 
