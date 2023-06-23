@@ -40,6 +40,10 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
   
   //for purpur:
   if(software === "purpur") {
+    if(!build) {
+      return res.status(400).json({ error: true, message: "The build parameter is required for this software." });
+    }
+    
     getVersionManifest().then(versionmanifest => {
         if(version === "latest") {
           version = versionmanifest.latest.release;
@@ -63,6 +67,10 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
 
   //for paper:
   if(software === "paper") {
+    if(!build) {
+      return res.status(400).json({ error: true, message: "The build parameter is required for this software." });
+    }
+    
     let filename;
     
       getVersionManifest().then(versionmanifest => {
