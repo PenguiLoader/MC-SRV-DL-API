@@ -26,15 +26,15 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
   let json = req.query.json;
   
   //check that all the required parameters are included.
-  if(!software || !version || !build && software !== "vanilla") {
-    return res.status(400).json({ error: true, message: "You need the software, version, and build parameter in the URL." });
+  if(!software || !version) {
+    return res.status(400).json({ error: true, message: "You need the software and version parameter in the URL (sometimes build)." });
   }
 
-  const softwares = ["vanilla", "paper", "purpur"];
+  const softwares = ["vanilla", "paper", "purpur", "mohistmc"];
   
     //check if the software parameter is a valid, real software.
     if(!softwares.includes(software)) {
-      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, or purpur." });
+      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, purpur or mohistmc." });
     }
 
   
@@ -138,6 +138,29 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
         //loop finshed:
         if(index === builds.length - 1 && foundVersion === false) return res.status(400).json({ error: true, message: "version not found" });
       });
+    });
+  }
+
+  //for mohistmc:
+  if(software === "mohistmc") {
+    getVersionManifest().then(versionmanifest => {
+        if(version === "latest") {
+          version = versionmanifest.latest.release;
+        }  
+
+      fetch(`https://mohistmc.com/api/${version}/latest`)
+      .then(results => results.json())
+      .then(data => {
+        if(data.error) {
+            return res.status(400).json({ error: true, message: data.error });
+          } 
+
+        if(json) {
+          return res.status(200).json({ error: false, download: data.url, version: version });
+        } else {
+          res.redirect(302, data.url);
+        }
+      })
     });
   }
 });
