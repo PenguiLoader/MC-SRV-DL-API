@@ -23,7 +23,7 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
   let software = req.query.software || req.params.software;
   let version = req.query.version || req.params.version;
   let build = req.query.build || req.params.build;
-  let json = req.params.json;
+  let json = req.query.json;
   
   //check that all the required parameters are included.
   if(!software || !version || !build && software !== "vanilla") {
