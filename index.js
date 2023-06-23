@@ -34,7 +34,7 @@ app.get("/download/:software?/:version?/:build?", (req, res) => {
   
     //check if the software parameter is a valid, real software.
     if(!softwares.includes(software)) {
-      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, purpur or mohistmc." });
+      return res.status(400).json({ error: true, message: "The software must be vanilla, paper, purpur, or mohistmc." });
     }
 
   
