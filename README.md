@@ -14,27 +14,20 @@ Some of the other server softwares that are planned to be added:
 
 - 🌟Glowstone
 
-To download one, use the /download endpoint with the software, version and build parameter. Here is an example:
+To download one, use the /download endpoint with the software, version and build. Here are some examples:
 
-To grab the latest paper .jar download link:
-
-`
-GET https://mc-srv-dl-api.pingwinco.xyz/download?software=paper&version=latest&build=latest
-`
-
-Example response:
-
-```json
-{
-  "error": false,
-  "download": "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/41/downloads/paper-1.20.1-41.jar"
-}
-```
-
-To grab the latest vanilla server.jar: (no build parameter required)
+To grab the latest paper .jar download:
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download?software=vanilla&version=latest
+GET https://mc-srv-dl-api.pingwinco.xyz/download/latest/latest
+`
+
+This will redirect you to the .jar file.
+
+To grab the latest vanilla server.jar download link: (no build parameter required)
+
+`
+GET https://mc-srv-dl-api.pingwinco.xyz/download/vanilla/latest?json=true
 `
 
 Example response:
