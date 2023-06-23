@@ -14,7 +14,7 @@ Some of the other server softwares that are planned to be added:
 
 - 🌟Glowstone
 
-To download one, use the /download endpoint with the software, version and build. Here are some examples:
+To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}. Or with the old format, /download?software={SOFTWARE}&version=${VERSION}&build=${BUILD}.
 
 To grab the latest paper .jar download:
 
