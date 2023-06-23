@@ -19,7 +19,7 @@ To download one, use the /download endpoint with the software, version and build
 To grab the latest paper .jar download:
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download/latest/latest
+GET https://mc-srv-dl-api.pingwinco.xyz/download/paper/latest/latest
 `
 
 This will redirect you to the .jar file.
