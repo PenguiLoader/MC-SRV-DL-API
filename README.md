@@ -13,6 +13,9 @@ The Minecraft Server Software API let's you download server softwares with ease.
 Some of the other server softwares that are planned to be added:
 
 - 🌟Glowstone
+- 🗿MohistMc
+- 🔥Magma
+- 👖Fabric
 
 To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}. Or with the old format, /download?software={SOFTWARE}&version=${VERSION}&build=${BUILD}.
 
