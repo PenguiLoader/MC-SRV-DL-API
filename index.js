@@ -55,23 +55,31 @@ async function handlePurpur(version, build, res) {
     return res.status(400).json({ error: true, message: purpurData.error });
   }
 
-  res.redirect(302, `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`);
+  if (!purpurData.download) {
+    return res.status(400).json({ error: true, message: "Invalid build." });
+  }
+
+  res.redirect(302, purpurData.download);
 }
 
 async function handlePaper(version, build, res) {
-  if (!build) {
-    return res.status(400).json({ error: true, message: "Build parameter is required for paper." });
-  }
-
   const paperBuilds = await fetch(`https://api.papermc.io/v2/projects/paper/versions/${version}/builds`).then(res => res.json());
   
   if (paperBuilds.error) {
     return res.status(400).json({ error: true, message: paperBuilds.error });
   }
 
-  let finalBuild = build === "latest" ? paperBuilds.builds[paperBuilds.builds.length - 1] : paperBuilds.builds.find(b => b.build === build);
-  let filename = finalBuild.downloads.application.name;
+  let finalBuild;
+  if (build === "latest") {
+    finalBuild = paperBuilds.builds[paperBuilds.builds.length - 1];
+  } else {
+    finalBuild = paperBuilds.builds.find(b => b.build === build);
+    if (!finalBuild) {
+      return res.status(400).json({ error: true, message: "Invalid build." });
+    }
+  }
 
+  let filename = finalBuild.downloads.application.name;
   res.redirect(302, `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`);
 }
 
