@@ -17,7 +17,7 @@ Some of the other server softwares that are planned to be added:
 - 🔥Magma
 - 👖Fabric
 
-To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}. Or with the old format, /download?software={SOFTWARE}&version=${VERSION}&build=${BUILD}.
+To download one, use the /download/{SOFTWARE}/{VERSION}/{BUILD}.
 
 To grab the latest paper .jar download:
 
@@ -30,19 +30,8 @@ This will redirect you to the .jar file.
 To grab the latest vanilla server.jar download link: (no build parameter required)
 
 `
-GET https://mc-srv-dl-api.pingwinco.xyz/download/vanilla/latest?json=true
+GET https://mc-srv-dl-api.pingwinco.xyz/download/vanilla/latest
 `
-
-Example response:
-
-```json
-{
-  "error": false,
-  "download": "https://piston-data.mojang.com/v1/objects/84194a2f286ef7c14ed7ce0090dba59902951553/server.jar"
-}
-```
-
-## ⚠ WARNING! When using "latest" as the version parameter, it may throw an error as the server software providers have not yet updated to the latest version. ⚠
 
 Please consider donating: https://www.paypal.com/donate/?hosted_button_id=Z43BFTB2UDSHQ
 

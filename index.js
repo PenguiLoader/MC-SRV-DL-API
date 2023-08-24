@@ -7,7 +7,6 @@ import fetch from "node-fetch";
 import cors from "cors";
 
 const app = express();
-
 app.use(cors());
 app.options("*", cors());
 
@@ -22,31 +21,28 @@ async function getVersionManifest() {
   return await response.json();
 }
 
-app.get("/download/:software/:version/:build?", async (req, res) => {
-  const { software, version: rawVersion, build: rawBuild } = req.params;
-
-  if (!VALID_SOFTWARES.includes(software)) {
-    return res.status(400).json({ error: true, message: "Invalid software type." });
-  }
-
+async function getLatestVanillaVersion() {
   const versionManifest = await getVersionManifest();
-  let version = rawVersion === "latest" ? versionManifest.latest.release : rawVersion;
+  return versionManifest.latest.release;
+}
 
-  switch (software) {
-    case "purpur":
-      await handlePurpur(version, rawBuild, res);
-      break;
-    case "paper":
-      await handlePaper(version, rawBuild, versionManifest, res);
-      break;
-    case "vanilla":
-      handleVanilla(version, versionManifest, res);
-      break;
-    case "mohistmc":
-      await handleMohist(version, versionManifest, res);
-      break;
-  }
-});
+async function getLatestPurpurVersion() {
+  const response = await fetch("https://api.purpurmc.org/v2/purpur/");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
+async function getLatestPaperVersion() {
+  const response = await fetch("https://api.papermc.io/v2/projects/paper");
+  const data = await response.json();
+  return data.versions[data.versions.length - 1];
+}
+
+async function getLatestMohistVersion() {
+  const response = await fetch("https://mohistmc.com/api/versions");
+  const versions = await response.json();
+  return versions[versions.length - 1];
+}
 
 async function handlePurpur(version, build, res) {
   if (!build) {
@@ -62,7 +58,7 @@ async function handlePurpur(version, build, res) {
   res.redirect(302, `https://api.purpurmc.org/v2/purpur/${version}/${build}/download`);
 }
 
-async function handlePaper(version, build, versionManifest, res) {
+async function handlePaper(version, build, res) {
   if (!build) {
     return res.status(400).json({ error: true, message: "Build parameter is required for paper." });
   }
@@ -79,7 +75,8 @@ async function handlePaper(version, build, versionManifest, res) {
   res.redirect(302, `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${finalBuild.build}/downloads/${filename}`);
 }
 
-function handleVanilla(version, versionManifest, res) {
+async function handleVanilla(version, res) {
+  const versionManifest = await getVersionManifest();
   const vanillaVersion = versionManifest.versions.find(v => v.id === version);
 
   if (!vanillaVersion) {
@@ -93,7 +90,7 @@ function handleVanilla(version, versionManifest, res) {
     });
 }
 
-async function handleMohist(version, versionManifest, res) {
+async function handleMohist(version, res) {
   const mohistData = await fetch(`https://mohistmc.com/api/${version}/latest`).then(res => res.json());
 
   if (mohistData.error) {
@@ -102,5 +99,34 @@ async function handleMohist(version, versionManifest, res) {
 
   res.redirect(302, mohistData.url);
 }
+
+app.get("/download/:software/:version/:build?", async (req, res) => {
+  const { software, version: rawVersion, build: rawBuild } = req.params;
+
+  if (!VALID_SOFTWARES.includes(software)) {
+    return res.status(400).json({ error: true, message: "Invalid software type." });
+  }
+
+  let version;
+
+  switch (software) {
+    case "vanilla":
+      version = rawVersion === "latest" ? await getLatestVanillaVersion() : rawVersion;
+      await handleVanilla(version, res);
+      break;
+    case "purpur":
+      version = rawVersion === "latest" ? await getLatestPurpurVersion() : rawVersion;
+      await handlePurpur(version, rawBuild, res);
+      break;
+    case "paper":
+      version = rawVersion === "latest" ? await getLatestPaperVersion() : rawVersion;
+      await handlePaper(version, rawBuild, res);
+      break;
+    case "mohistmc":
+      version = rawVersion === "latest" ? await getLatestMohistVersion() : rawVersion;
+      await handleMohist(version, res);
+      break;
+  }
+});
 
 app.listen(3000);
