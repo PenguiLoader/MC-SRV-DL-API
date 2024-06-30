@@ -1,3 +1,5 @@
+# THIS IS AN ARCHIVED REPOSITORY! Please check out my [new repo](https://github.com/polish-penguin-dev/MC-SRV-DL-API), and [Setupmd](https://github.com/setupmd/server-jar-api) Which are both based on this work!
+
 # Minecraft Server Download/Software API
 
 ## MC-SRV-DL-API Lets you easily download minecraft server software such as paper, purpur or vanilla all in one place.
